@@ -1,4 +1,4 @@
-package com.zry.weblog.admin.model.vo;
+package com.zry.weblog.admin.model.vo.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,4 +23,7 @@ public class UpdateAdminUserPasswordReqVO {
     @NotBlank(message = "密码不能为空")
     @ApiModelProperty(value = "密码")
     private String password;
+    @NotBlank(message = "确认密码不能为空")
+    @ApiModelProperty(value = "确认密码")
+    private String rePassword;
 }

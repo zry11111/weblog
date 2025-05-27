@@ -1,7 +1,7 @@
 package com.zry.weblog.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.zry.weblog.admin.model.vo.UpdateAdminUserPasswordReqVO;
+import com.zry.weblog.admin.model.vo.user.UpdateAdminUserPasswordReqVO;
 import com.zry.weblog.admin.model.vo.user.FindUserInfoRspVO;
 import com.zry.weblog.admin.service.AdminUserService;
 import com.zry.weblog.common.domain.dos.UserDO;
@@ -14,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
 @Service
 public class AdminUserServiceImpl implements AdminUserService {
     @Autowired
@@ -27,7 +26,12 @@ public class AdminUserServiceImpl implements AdminUserService {
 //        拿到用户名和密码
         String username = updateAdminUserPasswordReqVO.getUsername();
         String password = updateAdminUserPasswordReqVO.getPassword();
-        
+        String rePassword = updateAdminUserPasswordReqVO.getRePassword();
+        // 校验密码和确认密码是否一致
+        if (!password.equals(rePassword)) {
+            return Response.fail(ResponseCodeEnum.PASSWORD_NOT_MATCH);
+        }
+
 //        对密码进行就加密
         String encodePassword = passwordEncoder.encode(password);
         UserDO userDO = new UserDO();
