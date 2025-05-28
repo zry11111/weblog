@@ -88,7 +88,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     }
 
     @Override
-    public Response findCategorySelectList() {
+    public Response<List<SelectRspVO>> findCategorySelectList() {
         List<CategoryDO> categoryDOS = categoryMapper.selectList(null);
         // 将DO 转 VO
         List<SelectRspVO> selectRspVOS = null;

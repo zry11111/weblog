@@ -23,6 +23,8 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     FORBIDDEN("20004", "演示账号仅支持查询操作！"),
     PASSWORD_NOT_MATCH("20005", "密码和确认密码不一致，请重新输入"),
     CATEGORY_NAME_IS_EXISTED("20006", "分类名称已存在，请勿重复添加"),
+    TAG_CANT_DUPLICATE("20007", "请勿添加表中已存在的标签！"),
+    TAG_NOT_EXISTED("20008", "该标签不存在！"),
     ;
 
     // 异常码
