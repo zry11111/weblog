@@ -3,6 +3,7 @@ package com.zry.weblog.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zry.weblog.admin.model.vo.category.AddCategoryReqVO;
+import com.zry.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import com.zry.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import com.zry.weblog.admin.model.vo.category.FindCategoryPageListRspVO;
 import com.zry.weblog.admin.service.AdminCategoryService;
@@ -76,5 +77,12 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
                     .collect(Collectors.toList());
         }
         return PageResponse.success(categoryDOPage,vos);
+    }
+
+    @Override
+    public Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO) {
+        Long id = deleteCategoryReqVO.getId();
+        categoryMapper.deleteById(id);
+        return Response.success();
     }
 }

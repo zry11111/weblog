@@ -1,13 +1,13 @@
 package com.zry.weblog.admin.controller;
 
 import com.zry.weblog.admin.model.vo.category.AddCategoryReqVO;
+import com.zry.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import com.zry.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import com.zry.weblog.admin.service.AdminCategoryService;
 import com.zry.weblog.common.aspect.ApiOperationLog;
 import com.zry.weblog.common.utils.PageResponse;
 import com.zry.weblog.common.utils.Response;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +35,11 @@ public class AdminCategoryController {
     @ApiOperationLog(description = "分类分页数据获取")
     public PageResponse findCategoryList(@RequestBody @Validated FindCategoryPageListReqVO findCategoryPageListReqVO) {
         return categoryService.findCategoryList(findCategoryPageListReqVO);
+    }
+    @PostMapping("/category/delete")
+    @ApiOperation(value = "删除分类")
+    @ApiOperationLog(description = "删除分类")
+    public Response deleteCategory(@RequestBody @Validated DeleteCategoryReqVO deleteCategoryReqVO) {
+        return categoryService.deleteCategory(deleteCategoryReqVO);
     }
 }

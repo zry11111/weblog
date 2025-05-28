@@ -1,6 +1,7 @@
 package com.zry.weblog.admin.service;
 
 import com.zry.weblog.admin.model.vo.category.AddCategoryReqVO;
+import com.zry.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import com.zry.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import com.zry.weblog.common.utils.PageResponse;
 import com.zry.weblog.common.utils.Response;
@@ -12,4 +13,5 @@ public interface AdminCategoryService {
     */
     Response addCategory(AddCategoryReqVO addCategoryReqVO);
     PageResponse findCategoryList(FindCategoryPageListReqVO findCategoryPageListReqVO);
+    Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO);
 }
