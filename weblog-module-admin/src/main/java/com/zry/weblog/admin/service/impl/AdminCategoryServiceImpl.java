@@ -11,6 +11,7 @@ import com.zry.weblog.common.domain.dos.CategoryDO;
 import com.zry.weblog.common.domain.mapper.CategoryMapper;
 import com.zry.weblog.common.enums.ResponseCodeEnum;
 import com.zry.weblog.common.exception.BizException;
+import com.zry.weblog.common.model.vo.SelectRspVO;
 import com.zry.weblog.common.utils.PageResponse;
 import com.zry.weblog.common.utils.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -84,5 +85,22 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         Long id = deleteCategoryReqVO.getId();
         categoryMapper.deleteById(id);
         return Response.success();
+    }
+
+    @Override
+    public Response findCategorySelectList() {
+        List<CategoryDO> categoryDOS = categoryMapper.selectList(null);
+        // 将DO 转 VO
+        List<SelectRspVO> selectRspVOS = null;
+        if(!CollectionUtils.isEmpty(categoryDOS)) {
+            selectRspVOS = categoryDOS.stream()
+                    .map(categoryDO -> SelectRspVO.builder()
+                            .value(categoryDO.getId())
+                            .label(categoryDO.getName())
+                            .build())
+                    // 将流中的元素收集到一个新的List集合中
+                    .collect(Collectors.toList());
+        }
+        return Response.success(selectRspVOS);
     }
 }

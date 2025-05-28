@@ -14,4 +14,8 @@ public interface AdminCategoryService {
     Response addCategory(AddCategoryReqVO addCategoryReqVO);
     PageResponse findCategoryList(FindCategoryPageListReqVO findCategoryPageListReqVO);
     Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO);
+    /**
+    * @Description: 获取分类列表
+    */
+    Response findCategorySelectList();
 }

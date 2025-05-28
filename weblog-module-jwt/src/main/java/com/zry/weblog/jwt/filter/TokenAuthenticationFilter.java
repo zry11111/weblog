@@ -64,6 +64,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {//确保每
                 String username = jwtTokenHelper.getUsernameByToken(token);
                 if(StringUtils.isNotBlank(username)&&
                         Objects.isNull(SecurityContextHolder.getContext().getAuthentication())){
+                    // 从数据查询该用户
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                             userDetails.getAuthorities());
