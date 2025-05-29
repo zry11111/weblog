@@ -1,6 +1,5 @@
 package com.zry.weblog.admin.config;
 
-import com.zry.weblog.common.domain.mapper.UserMapper;
 import com.zry.weblog.jwt.config.JwtAuthenticationSecurityConfig;
 import com.zry.weblog.jwt.filter.TokenAuthenticationFilter;
 import com.zry.weblog.jwt.handler.RestAccessDeniedHandler;
