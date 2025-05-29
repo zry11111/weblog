@@ -34,5 +34,4 @@ public class BlogSettingsDO {
 
     private String giteeHomepage;
 
-    private String zhihuHomepage;
 }
