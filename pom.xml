@@ -44,11 +44,18 @@
         <p6spy.version>3.9.1</p6spy.version>
         <knife4j.version>4.3.0</knife4j.version>
         <jjwt.version>0.11.2</jjwt.version>
+        <minio.version>8.2.1</minio.version>
     </properties>
 
     <!-- 统一依赖管理 -->
     <dependencyManagement>
         <dependencies>
+            <!-- 对象存储 Minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>p6spy</groupId>
