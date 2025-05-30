@@ -1,6 +1,7 @@
 package com.zry.weblog.admin.service.impl;
 
 import com.google.common.collect.Lists;
+import com.zry.weblog.admin.model.vo.article.DeleteArticleReqVO;
 import com.zry.weblog.admin.model.vo.article.PublishArticleReqVO;
 import com.zry.weblog.admin.service.AdminArticleService;
 import com.zry.weblog.common.domain.dos.*;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+@SuppressWarnings("all")//看着太难受了
 @Service
 @Slf4j
 public class AdminArticleServiceImpl implements AdminArticleService {
@@ -84,6 +85,25 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         List<String> publishTags = publishArticleReqVO.getTags();
 
         insertTags(articleId,publishTags);
+
+        return Response.success();
+    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Response deleteArticle(DeleteArticleReqVO deleteArticleReqVO) {
+        Long articleId = deleteArticleReqVO.getId();
+
+        // 1. 删除文章
+        articleMapper.deleteById(articleId);
+
+        // 2. 删除文章内容
+        articleContentMapper.deleteByArticleId(articleId);
+
+        // 3. 删除文章-分类关联记录
+        articleCategoryRelMapper.deleteByArticleId(articleId);
+
+        // 4. 删除文章-标签关联记录
+        articleTagRelMapper.deleteByArticleId(articleId);
 
         return Response.success();
     }

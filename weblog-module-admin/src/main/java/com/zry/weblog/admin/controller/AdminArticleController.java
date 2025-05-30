@@ -1,5 +1,6 @@
 package com.zry.weblog.admin.controller;
 
+import com.zry.weblog.admin.model.vo.article.DeleteArticleReqVO;
 import com.zry.weblog.admin.model.vo.article.PublishArticleReqVO;
 import com.zry.weblog.admin.service.AdminArticleService;
 import com.zry.weblog.common.aspect.ApiOperationLog;
@@ -28,6 +29,13 @@ public class AdminArticleController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")//检查用户是否具有管理员角色
     public Response publishArticle(@RequestBody @Validated PublishArticleReqVO publishArticleReqVO) {
         return articleService.publishArticle(publishArticleReqVO);
+    }
+    @PostMapping("/delete")
+    @ApiOperation(value = "文章删除")
+    @ApiOperationLog(description = "文章删除")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response deleteArticle(@RequestBody @Validated DeleteArticleReqVO deleteArticleReqVO) {
+        return articleService.deleteArticle(deleteArticleReqVO);
     }
 
 }
