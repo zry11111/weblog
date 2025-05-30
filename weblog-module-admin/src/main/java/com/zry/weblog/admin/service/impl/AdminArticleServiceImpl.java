@@ -2,10 +2,8 @@ package com.zry.weblog.admin.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
-import com.zry.weblog.admin.model.vo.article.DeleteArticleReqVO;
-import com.zry.weblog.admin.model.vo.article.FindArticlePageListReqVO;
-import com.zry.weblog.admin.model.vo.article.FindArticlePageListRspVO;
-import com.zry.weblog.admin.model.vo.article.PublishArticleReqVO;
+import com.zry.weblog.admin.convert.ArticleDetailConvert;
+import com.zry.weblog.admin.model.vo.article.*;
 import com.zry.weblog.admin.service.AdminArticleService;
 import com.zry.weblog.common.domain.dos.*;
 import com.zry.weblog.common.domain.mapper.*;
@@ -140,6 +138,35 @@ public class AdminArticleServiceImpl implements AdminArticleService {
         }
 
         return PageResponse.success(articleDOPage, vos);
+    }
+    @Override
+    public Response findArticleDetail(FindArticleDetailReqVO findArticleDetailReqVO) {
+        Long articleId = findArticleDetailReqVO.getId();
+
+        ArticleDO articleDO = articleMapper.selectById(articleId);
+
+        if (Objects.isNull(articleDO)) {
+            log.warn("==> 查询的文章不存在，articleId: {}", articleId);
+            throw new BizException(ResponseCodeEnum.ARTICLE_NOT_FOUND);
+        }
+
+        ArticleContentDO articleContentDO = articleContentMapper.selectByArticleId(articleId);
+
+        // 所属分类
+        ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectByArticleId(articleId);
+
+        // 对应标签
+        List<ArticleTagRelDO> articleTagRelDOS = articleTagRelMapper.selectByArticleId(articleId);
+        // 获取对应标签 ID 集合
+        List<Long> tagIds = articleTagRelDOS.stream().map(ArticleTagRelDO::getTagId).collect(Collectors.toList());
+
+        // DO 转 VO
+        FindArticleDetailRspVO vo = ArticleDetailConvert.INSTANCE.convertDO2VO(articleDO);
+        vo.setContent(articleContentDO.getContent());
+        vo.setCategoryId(articleCategoryRelDO.getCategoryId());
+        vo.setTagIds(tagIds);
+
+        return Response.success(vo);
     }
     /**
      * 保存标签
