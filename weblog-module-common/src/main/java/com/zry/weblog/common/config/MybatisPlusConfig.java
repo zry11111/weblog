@@ -16,4 +16,11 @@ public class MybatisPlusConfig {
          interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
     }
+    /**
+     * 自定义批量插入 SQL 注入器,真正实现批量插入
+     */
+    @Bean
+    public InsertBatchSqlInjector insertBatchSqlInjector() {
+        return new InsertBatchSqlInjector();
+    }
 }
