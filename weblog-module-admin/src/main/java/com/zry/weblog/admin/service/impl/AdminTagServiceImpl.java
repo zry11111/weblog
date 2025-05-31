@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zry.weblog.admin.model.vo.tag.*;
 import com.zry.weblog.admin.service.AdminTagService;
+import com.zry.weblog.common.domain.dos.ArticleTagRelDO;
 import com.zry.weblog.common.domain.dos.TagDO;
+import com.zry.weblog.common.domain.mapper.ArticleTagRelMapper;
 import com.zry.weblog.common.domain.mapper.TagMapper;
 import com.zry.weblog.common.enums.ResponseCodeEnum;
 import com.zry.weblog.common.model.vo.SelectRspVO;
@@ -20,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +31,8 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, TagDO> implement
 
     @Autowired
     private TagMapper tagMapper;
+    @Autowired
+    private ArticleTagRelMapper articleTagRelMapper;
     @Override
     public Response addTags(AddTagReqVO addTagReqVO) {
         // vo 转 do
@@ -81,6 +86,12 @@ public class AdminTagServiceImpl extends ServiceImpl<TagMapper, TagDO> implement
     public Response deleteTag(DeleteTagReqVO deleteTagReqVO) {
         // 标签 ID
         Long tagId = deleteTagReqVO.getId();
+        // 检查标签是否有文章使用
+        ArticleTagRelDO articleTagRelDO = articleTagRelMapper.selectOneByTagId(tagId);
+        if (Objects.nonNull(articleTagRelDO)) {
+            log.warn("标签已被文章使用，无法删除，tagId: {}", tagId);
+            return Response.fail(ResponseCodeEnum.TAG_CAN_NOT_DELETE);
+        }
 
         // 根据标签 ID 删除
         int count = tagMapper.deleteById(tagId);

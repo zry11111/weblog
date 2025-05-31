@@ -7,7 +7,9 @@ import com.zry.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import com.zry.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import com.zry.weblog.admin.model.vo.category.FindCategoryPageListRspVO;
 import com.zry.weblog.admin.service.AdminCategoryService;
+import com.zry.weblog.common.domain.dos.ArticleCategoryRelDO;
 import com.zry.weblog.common.domain.dos.CategoryDO;
+import com.zry.weblog.common.domain.mapper.ArticleCategoryRelMapper;
 import com.zry.weblog.common.domain.mapper.CategoryMapper;
 import com.zry.weblog.common.enums.ResponseCodeEnum;
 import com.zry.weblog.common.exception.BizException;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 public class AdminCategoryServiceImpl implements AdminCategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private ArticleCategoryRelMapper articleCategoryRelMapper;
     @Override
     public Response addCategory(AddCategoryReqVO addCategoryReqVO) {
         String name = addCategoryReqVO.getName();
@@ -82,8 +86,15 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
 
     @Override
     public Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO) {
-        Long id = deleteCategoryReqVO.getId();
-        categoryMapper.deleteById(id);
+        Long categoryId = deleteCategoryReqVO.getId();
+        // 校验该分类下是否已经有文章，若有，则提示需要先删除分类下所有文章，才能删除
+        ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectOneByCategoryId(categoryId);
+
+        if (Objects.nonNull(articleCategoryRelDO)) {
+            log.warn("==> 此分类下包含文章，无法删除，categoryId: {}", categoryId);
+            throw new BizException(ResponseCodeEnum.CATEGORY_CAN_NOT_DELETE);
+        }
+        categoryMapper.deleteById(categoryId);
         return Response.success();
     }
 

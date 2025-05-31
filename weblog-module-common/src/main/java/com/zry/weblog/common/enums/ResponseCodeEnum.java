@@ -28,6 +28,8 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     FILE_UPLOAD_FAILED("20009", "文件上传失败，请稍后重试"),
     CATEGORY_NOT_EXISTED("20010", "提交的分类不存在！"),
     ARTICLE_NOT_FOUND("20011", "文章不存在或已被删除，请检查后重试"),
+    CATEGORY_CAN_NOT_DELETE("20012", "分类下存在文章，不能删除"),
+    TAG_CAN_NOT_DELETE("20013", "标签下存在文章，不能删除")
     ;
 
     // 异常码
