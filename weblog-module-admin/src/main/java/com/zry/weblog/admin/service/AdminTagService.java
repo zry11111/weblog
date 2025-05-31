@@ -12,4 +12,6 @@ public interface AdminTagService {
     Response deleteTag(DeleteTagReqVO deleteTagReqVO);
 
     Response searchTags(SearchTagsReqVO searchTagsReqVO);
+    // 查询tag列表数据
+    Response findTagSelectList();
 }
