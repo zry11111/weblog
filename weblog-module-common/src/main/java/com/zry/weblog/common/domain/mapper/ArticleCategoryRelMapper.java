@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zry.weblog.common.domain.dos.ArticleCategoryRelDO;
 
+import java.util.List;
+
 public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelDO> {
 //    根据文章 ID 删除关联记录
     default int deleteByArticleId(Long articleId) {
@@ -18,5 +20,9 @@ public interface ArticleCategoryRelMapper extends BaseMapper<ArticleCategoryRelD
         return selectOne(Wrappers.<ArticleCategoryRelDO>lambdaQuery()
                 .eq(ArticleCategoryRelDO::getCategoryId, categoryId)
                 .last("LIMIT 1"));
+    }
+    default List<ArticleCategoryRelDO> selectByArticleIds(List<Long> articleIds) {
+        return selectList(Wrappers.<ArticleCategoryRelDO>lambdaQuery()
+                .in(ArticleCategoryRelDO::getArticleId, articleIds));
     }
 }
