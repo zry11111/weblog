@@ -2,6 +2,7 @@ package com.zry.weblog.web.controller;
 
 import com.zry.weblog.common.aspect.ApiOperationLog;
 import com.zry.weblog.common.utils.Response;
+import com.zry.weblog.web.model.vo.article.FindArticleDetailReqVO;
 import com.zry.weblog.web.model.vo.article.FindIndexArticlePageListReqVO;
 import com.zry.weblog.web.service.ArticleService;
 import io.swagger.annotations.Api;
@@ -24,5 +25,10 @@ public class ArticleController {
     public Response findArticlePageList(@RequestBody FindIndexArticlePageListReqVO findIndexArticlePageListReqVO) {
         return articleService.findArticlePageList(findIndexArticlePageListReqVO);
     }
-
+    @PostMapping("/detail")
+    @ApiOperation(value = "获取文章详情")
+    @ApiOperationLog(description = "获取文章详情")
+    public Response findArticleDetail(@RequestBody FindArticleDetailReqVO findArticleDetailReqVO) {
+        return articleService.findArticleDetail(findArticleDetailReqVO);
+    }
 }
