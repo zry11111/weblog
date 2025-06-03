@@ -1,6 +1,8 @@
 package com.zry.weblog.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.Maps;
+import com.zry.weblog.common.domain.dos.ArticlePublishCountDO;
 import com.zry.weblog.admin.model.vo.dashboard.FindDashboardStatisticsInfoRspVO;
 import com.zry.weblog.admin.service.AdminDashboardService;
 import com.zry.weblog.common.domain.dos.ArticleDO;
@@ -13,7 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -60,5 +66,35 @@ public class AdminDashboardServiceImpl implements AdminDashboardService {
                 .build();
 
         return Response.success(vo);
+    }
+    @Override
+    public Response findDashboardPublishArticleStatistics() {
+        // 当前日期
+        LocalDate currDate = LocalDate.now();
+
+        // 当前日期倒退一年的日期
+        LocalDate startDate = currDate.minusYears(1);
+
+        // 查找这一年内，每日发布的文章数量
+        List<ArticlePublishCountDO> articlePublishCountDOS = articleMapper.selectDateArticlePublishCount(startDate, currDate.plusDays(1));
+
+        Map<LocalDate, Long> map = null;
+        if (!CollectionUtils.isEmpty(articlePublishCountDOS)) {
+            // DO 转 Map
+            Map<LocalDate, Long> dateArticleCountMap = articlePublishCountDOS.stream()
+                    .collect(Collectors.toMap(ArticlePublishCountDO::getDate, ArticlePublishCountDO::getCount));
+
+            // 有序 Map, 返回的日期文章数需要以升序排列
+            map = Maps.newLinkedHashMap();
+            // 从上一年的今天循环到今天
+            for (; startDate.isBefore(currDate) || startDate.isEqual(currDate); startDate = startDate.plusDays(1)) {
+                // 以日期作为 key 从 dateArticleCountMap 中取文章发布总量
+                Long count = dateArticleCountMap.get(startDate);
+                // 设置到返参 Map
+                map.put(startDate, Objects.isNull(count) ? 0 : count);
+            }
+        }
+
+        return Response.success(map);
     }
 }

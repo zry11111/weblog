@@ -1,13 +1,13 @@
 package com.zry.weblog.common.domain.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zry.weblog.common.domain.dos.ArticleDO;
+import com.zry.weblog.common.domain.dos.ArticlePublishCountDO;
+import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -74,4 +74,9 @@ public interface ArticleMapper extends BaseMapper<ArticleDO> {
         return selectList(Wrappers.<ArticleDO>lambdaQuery()
                 .select(ArticleDO::getReadNum));
     }
+    @Select("SELECT DATE(create_time) AS date, COUNT(*) AS count\n" +
+            "FROM t_article\n" +
+            "WHERE create_time >= #{startDate} AND create_time < #{endDate}\n" +
+            "GROUP BY DATE(create_time)")
+    List<ArticlePublishCountDO> selectDateArticlePublishCount(LocalDate startDate, LocalDate endDate);
 }
