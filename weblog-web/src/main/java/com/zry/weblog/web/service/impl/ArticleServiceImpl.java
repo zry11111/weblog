@@ -3,6 +3,7 @@ package com.zry.weblog.web.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
+import com.zry.weblog.admin.event.ReadArticleEvent;
 import com.zry.weblog.common.domain.dos.*;
 import com.zry.weblog.common.domain.mapper.*;
 import com.zry.weblog.common.enums.ResponseCodeEnum;
@@ -15,8 +16,8 @@ import com.zry.weblog.web.model.vo.article.*;
 import com.zry.weblog.web.model.vo.tag.FindTagListRspVO;
 import com.zry.weblog.web.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -42,6 +43,8 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleTagRelMapper articleTagRelMapper;
     @Autowired
     private ArticleContentMapper articleContentMapper;
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     /**
      * 获取首页文章分页数据
@@ -185,6 +188,8 @@ public class ArticleServiceImpl implements ArticleService {
                     .build();
             vo.setNextArticle(nextArticleVO);
         }
+        // 发布文章阅读事件
+        eventPublisher.publishEvent(new ReadArticleEvent(this, articleId));
 
         return Response.success(vo);
     }
