@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.zry</groupId>
     <artifactId>webBlog</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>webBlog</name>
     <description>webBlog</description>
 
@@ -47,9 +47,6 @@
         <minio.version>8.2.1</minio.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <commonmark.version>0.20.0</commonmark.version>
-        <weblog-module-admin.version>0.0.1-SNAPSHOT</weblog-module-admin.version>
-        <weblog-module-common.version>0.0.1-SNAPSHOT</weblog-module-common.version>
-        <weblog-module-jwt.version>0.0.1-SNAPSHOT</weblog-module-jwt.version>
     </properties>
 
     <!-- 统一依赖管理 -->
@@ -106,15 +103,18 @@
             <dependency>
                 <groupId>com.zry</groupId>
                 <artifactId>weblog-module-admin</artifactId>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.zry</groupId>
                 <artifactId>weblog-module-common</artifactId>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zry</groupId>
                 <artifactId>weblog-module-jwt</artifactId>
+                <version>${revision}</version>
             </dependency>
 
             <!-- 常用工具库 -->

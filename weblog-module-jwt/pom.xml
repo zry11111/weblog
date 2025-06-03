@@ -5,11 +5,10 @@
 	<parent>
 		<groupId>com.zry</groupId>
 		<artifactId>webBlog</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>${revision}</version>
 	</parent>
 	<groupId>com.zry</groupId>
 	<artifactId>weblog-module-jwt</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>weblog-module-jwt</name>
 	<description>weblog-module-jwt</description>
 	<properties>
@@ -67,7 +66,6 @@
 		<dependency>
 			<groupId>com.zry</groupId>
 			<artifactId>weblog-module-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -76,14 +74,4 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>
