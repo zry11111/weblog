@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @ComponentScan({"com.zry.weblog.*"})
 public class WeblogWebApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(WeblogWebApplication.class, args);
     }

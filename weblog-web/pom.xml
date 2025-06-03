@@ -15,6 +15,8 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+    <!-- 确保这是jar包 -->
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>org.commonmark</groupId>
@@ -87,8 +89,8 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
@@ -101,6 +103,13 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!-- 关键！会生成可执行jar -->
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
