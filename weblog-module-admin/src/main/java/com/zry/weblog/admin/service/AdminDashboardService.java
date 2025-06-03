@@ -9,4 +9,5 @@ public interface AdminDashboardService {
      */
     Response findDashboardStatistics();
     Response findDashboardPublishArticleStatistics();
+    Response findDashboardPVStatistics();
 }
