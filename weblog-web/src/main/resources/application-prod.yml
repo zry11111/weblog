@@ -22,3 +22,6 @@ minio:
   accessKey: zhaorenyi
   secretKey: 12345678
   bucketName: weblog
+
+lucene:
+  indexDir: /app/weblog/lucene-index # lucene 索引存放的位置

@@ -36,3 +36,6 @@ minio:
 server:
   tomcat:
     basedir: D:/data/minio
+
+lucene:
+  indexDir: D:/data/lucene-index # lucene 索引存放的位置
