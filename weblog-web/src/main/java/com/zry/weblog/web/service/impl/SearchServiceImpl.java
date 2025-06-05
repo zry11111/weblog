@@ -43,8 +43,6 @@ public class SearchServiceImpl implements SearchService {
         int current = Math.toIntExact(searchArticlePageListReqVO.getCurrent());
         int size = Math.toIntExact(searchArticlePageListReqVO.getSize());
 
-        // 文章索引存放目录
-        String articleIndexDir = luceneProperties.getIndexDir() + File.separator + ArticleIndex.NAME;
         // 查询关键词
         String word = searchArticlePageListReqVO.getWord();
 
